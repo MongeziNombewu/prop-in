@@ -22,12 +22,12 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
 }
 
@@ -41,11 +41,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
-
-    // koin
-    implementation "io.insert-koin:koin-android:$koin_version"
-    testImplementation "io.insert-koin:koin-test:$koin_version"
-    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 
     // test dependencies
     testImplementation 'junit:junit:4.13.2'

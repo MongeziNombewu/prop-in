@@ -15,10 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.core
+package com.propin.android.di
 
-sealed class Resource<T>(val data: T? = null, val error: Throwable? = null, val uiText: UIText? = null) {
-    class Success<T>(data: T?) : Resource<T>(data = data)
-    class Error<T>(exception: Throwable? = null, uiText: UIText? = null) : Resource<T>(uiText = uiText, error = exception)
-    class Loading<T>(data: T?) : Resource<T>(data)
+import com.propin.android.ui.login.LoginViewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.module
+
+val appModule = module {
+    viewModelOf(::LoginViewModel)
+//    factoryOf(::LoginViewModel)
 }

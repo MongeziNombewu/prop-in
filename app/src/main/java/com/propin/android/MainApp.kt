@@ -15,10 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.core
+package com.propin.android
 
-sealed class Resource<T>(val data: T? = null, val error: Throwable? = null, val uiText: UIText? = null) {
-    class Success<T>(data: T?) : Resource<T>(data = data)
-    class Error<T>(exception: Throwable? = null, uiText: UIText? = null) : Resource<T>(uiText = uiText, error = exception)
-    class Loading<T>(data: T?) : Resource<T>(data)
+import androidx.compose.runtime.Composable
+import com.propin.android.ui.login.LoginScreen
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun MainApp() {
+// TODO: handle high-level app scenarios i.e internet connectivity
+    LoginScreen(viewModel = getViewModel())
 }
