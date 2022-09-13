@@ -15,10 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.core
+package com.propin.android
 
-sealed class Resource<T>(val data: T? = null, val error: Throwable? = null, val uiText: UIText? = null) {
-    class Success<T>(data: T?) : Resource<T>(data = data)
-    class Error<T>(exception: Throwable? = null, uiText: UIText? = null) : Resource<T>(uiText = uiText, error = exception)
-    class Loading<T>(data: T?) : Resource<T>(data)
+import android.app.Application
+import com.propin.android.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+
+class PropInApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidLogger()
+            androidContext(this@PropInApp)
+            modules(appModule)
+        }
+    }
 }
