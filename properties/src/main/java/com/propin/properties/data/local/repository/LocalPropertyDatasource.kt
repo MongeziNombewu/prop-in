@@ -17,12 +17,19 @@
 
 package com.propin.properties.data.local.repository
 
-import com.propin.properties.data.local.dao.PropertyDao
-import com.propin.properties.data.local.model.PropertyDto
+import com.propin.properties.data.local.PropertiesDatabase
+import com.propin.properties.data.local.PropertyEntity
 import com.propin.properties.domain.repository.PropertyDatasource
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.flow.Flow
 
-class LocalPropertyDatasource(private val propertyDao: PropertyDao) : PropertyDatasource {
-    override suspend fun getAllProperties(): List<PropertyDto> = propertyDao.getProperties()
+class LocalPropertyDatasource(private val database: PropertiesDatabase) : PropertyDatasource {
+    override suspend fun getAllProperties(): Flow<List<PropertyEntity>> {
+        return database.propertyEntityQueries.getAllProperties().asFlow().mapToList()
+    }
 
-    override suspend fun getProperty(id: Int): PropertyDto = propertyDao.getPropertyById(id)
+    override suspend fun getProperty(id: Long): PropertyEntity? {
+        return database.propertyEntityQueries.getPropertyById(id).executeAsOneOrNull()
+    }
 }

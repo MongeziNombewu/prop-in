@@ -17,15 +17,31 @@
 
 package com.propin.properties.data.local.repository.mapper
 
-import com.propin.properties.data.local.model.PropertyDto
+import android.icu.math.BigDecimal
+import com.propin.properties.data.local.PropertyEntity
+import com.propin.properties.domain.model.Address
+import com.propin.properties.domain.model.PaymentFrequency
 import com.propin.properties.domain.model.Property
 
-fun PropertyDto.toProperty(): Property {
+fun PropertyEntity.toProperty(): Property {
     return Property(
-        ID,
+        id,
         description,
-        address,
-        defaultRate,
-        defaultPaymentFrequency
+        extractAddress(property = this),
+        BigDecimal.ZERO,
+        PaymentFrequency.MONTHLY
     )
+}
+
+fun extractAddress(property: PropertyEntity): Address {
+    return with(property) {
+        Address(
+            addressLineOne,
+            addressLineTwo,
+            suburb,
+            city,
+            country,
+            code
+        )
+    }
 }

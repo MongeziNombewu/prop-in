@@ -17,10 +17,11 @@
 
 package com.propin.properties.domain.repository
 
-import com.propin.properties.data.local.model.PropertyDto
+import com.propin.properties.data.local.PropertyEntity
+import kotlinx.coroutines.flow.Flow
 
 interface PropertyDatasource {
-    suspend fun getAllProperties(): List<PropertyDto>
+    suspend fun getAllProperties(): Flow<List<PropertyEntity>>
 
-    suspend fun getProperty(id: Int): PropertyDto
+    suspend fun getProperty(id: Long): PropertyEntity?
 }

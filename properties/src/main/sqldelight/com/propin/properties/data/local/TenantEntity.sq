@@ -1,0 +1,17 @@
+CREATE TABLE TenantEntity (
+     id TEXT NOT NULL PRIMARY KEY,
+     name TEXT NOT NULL,
+     email TEXT NOT NULL,
+     contactNumber TEXT NOT NULL
+);
+
+insertTenant:
+INSERT
+INTO TenantEntity (id, name, email, contactNumber)
+VALUES (?, ?, ?, ?);
+
+selectById:
+SELECT *
+FROM TenantEntity
+WHERE id = ?;
+

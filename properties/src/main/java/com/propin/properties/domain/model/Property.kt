@@ -18,12 +18,11 @@
 package com.propin.properties.domain.model
 
 import android.icu.math.BigDecimal
-import com.propin.properties.data.local.model.AddressDto
 
 data class Property(
-    val ID: Int,
+    val ID: Long,
     val description: String,
-    val address: AddressDto,
+    val address: Address,
     val defaultRate: BigDecimal?,
     val defaultPaymentFrequency: PaymentFrequency?
 )

@@ -41,7 +41,7 @@ import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(viewModel: LoginViewModel, onNavigateToHome: () -> Unit) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
@@ -81,7 +81,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
-            onClick = { /*TODO*/ }
+            onClick = onNavigateToHome
         ) {
             Text(text = stringResource(id = R.string.sign_in))
         }
@@ -92,6 +92,6 @@ fun LoginScreen(viewModel: LoginViewModel) {
 @Composable
 fun DefaultPreview() {
     PropInTheme {
-        LoginScreen(getViewModel())
+        LoginScreen(getViewModel()) {}
     }
 }

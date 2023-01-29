@@ -15,12 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.properties.data.local.model
+package com.propin.android.ui.home
 
-import androidx.room.Entity
+import com.propin.core.UIText
+import com.propin.properties.domain.model.Property
 
-@Entity(primaryKeys = ["leaseId", "tenantId"])
-data class LeaseAndTenantCrossReference(
-    val leaseId: Int,
-    val tenantId: String
-)
+sealed class HomeUiState {
+    data class PropertiesAvailable(val properties: List<Property> = emptyList()) : HomeUiState()
+    data class NoPropertiesAvailable(val uiText: UIText) : HomeUiState()
+    data class Error(val errorUIText: UIText) : HomeUiState()
+    object Loading : HomeUiState()
+}

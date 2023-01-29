@@ -17,12 +17,14 @@
 
 package com.propin.android.di
 
+import com.propin.android.ui.home.HomeViewModel
 import com.propin.android.ui.login.LoginViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
-import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val appModule = module {
     viewModelOf(::LoginViewModel)
-//    factoryOf(::LoginViewModel)
+
+    viewModel { HomeViewModel(get()) }
 }

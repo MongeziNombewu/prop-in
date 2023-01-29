@@ -18,11 +18,26 @@
 package com.propin.android
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.propin.android.ui.Screens
+import com.propin.android.ui.home.HomeScreen
 import com.propin.android.ui.login.LoginScreen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun MainApp() {
+fun MainApp(navController: NavHostController = rememberNavController()) {
 // TODO: handle high-level app scenarios i.e internet connectivity
-    LoginScreen(viewModel = getViewModel())
+
+    NavHost(navController = navController, startDestination = Screens.HOME.name) {
+        composable(Screens.LOGIN.name) {
+            LoginScreen(
+                viewModel = getViewModel(),
+                onNavigateToHome = { navController.navigate(Screens.HOME.name) }
+            )
+        }
+        composable(Screens.HOME.name) { HomeScreen(navController = navController) }
+    }
 }

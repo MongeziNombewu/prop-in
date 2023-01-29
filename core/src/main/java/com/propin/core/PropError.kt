@@ -15,25 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.properties.data.local.dao
+package com.propin.core
 
-import androidx.room.*
-import com.propin.properties.data.local.model.PropertyDto
+import java.io.IOException
 
-@Dao
-interface PropertyDao {
-    @Insert
-    suspend fun insert(vararg properties: PropertyDto)
+sealed class PropError(val uiText: UIText? = null, val exception: Throwable? = null) {
+    class IOError(exception: Throwable? = null, uiText: UIText? = null) : PropError(uiText, exception)
+    class NotFoundError(uiText: UIText? = null) : PropError(uiText)
+    class UnexpectedError(exception: Throwable? = null, uiText: UIText? = null) : PropError(uiText, exception)
+}
 
-    @Delete
-    suspend fun delete(vararg properties: PropertyDto)
-
-    @Update
-    suspend fun update(vararg properties: PropertyDto)
-
-    @Query("SELECT * FROM properties")
-    suspend fun getProperties(): List<PropertyDto>
-
-    @Query("SELECT * FROM properties WHERE ID = :id")
-    suspend fun getPropertyById(id: Int): PropertyDto
+fun Throwable.toPropError(): PropError {
+    return when (this) {
+        is IOException -> PropError.IOError(exception = this)
+        else -> PropError.UnexpectedError(exception = this)
+    }
 }

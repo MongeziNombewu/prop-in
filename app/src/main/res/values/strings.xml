@@ -3,4 +3,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
+
+    //messaging
+    <string name="home_no_properties">There are no properties available. Click the \'+\' below to add your first property</string>
 </resources>

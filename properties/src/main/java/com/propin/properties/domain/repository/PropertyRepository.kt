@@ -19,9 +19,10 @@ package com.propin.properties.domain.repository
 
 import com.propin.core.Resource
 import com.propin.properties.domain.model.Property
+import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {
-    suspend fun getAllProperties(): Resource<List<Property>>
+    suspend fun getAllProperties(): Flow<Resource<List<Property>>>
 
-    suspend fun getProperty(id: Int): Resource<Property>
+    suspend fun getProperty(id: Long): Resource<Property>
 }

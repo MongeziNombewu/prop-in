@@ -17,8 +17,9 @@
 
 package com.propin.core
 
-sealed class Resource<T>(val data: T? = null, val error: Throwable? = null, val uiText: UIText? = null) {
+sealed class Resource<T>(val data: T? = null, val error: PropError? = null, val uiText: UIText? = null) {
     class Success<T>(data: T?) : Resource<T>(data = data)
-    class Error<T>(exception: Throwable? = null, uiText: UIText? = null) : Resource<T>(uiText = uiText, error = exception)
-    class Loading<T>(data: T?) : Resource<T>(data)
+    class Error<T>(exception: PropError? = null, uiText: UIText? = null) : Resource<T>(uiText = uiText, error = exception)
+
+    fun isSuccessful(): Boolean = error == null
 }

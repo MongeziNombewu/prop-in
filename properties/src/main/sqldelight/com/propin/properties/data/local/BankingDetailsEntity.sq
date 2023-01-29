@@ -1,0 +1,17 @@
+CREATE TABLE BankingDetailsEntity (
+    accountNumber TEXT NOT NULL PRIMARY KEY,
+    bank TEXT NOT NULL,
+    holder TEXT NOT NULL,
+    branchCode TEXT NOT NULL,
+    reference TEXT
+);
+
+getDetailsById: 
+SELECT *
+FROM BankingDetailsEntity
+WHERE accountNumber = :account;
+
+insertBankingDetails:
+INSERT OR REPLACE
+INTO BankingDetailsEntity (accountNumber, bank, holder, branchCode, reference)
+VALUES (?, ?, ?, ?, ?);

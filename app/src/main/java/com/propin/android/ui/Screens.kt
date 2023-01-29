@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.core
+package com.propin.android.ui
 
-sealed class Error<T>(val uiText: UIText? = null, val exception: Exception? = null) {
-    class IOError<T>(exception: Exception?, uiText: UIText?) : Error<T>(uiText, exception)
-    class RuntimeError<T>(exception: Exception?, uiText: UIText?) : Error<T>(uiText, exception)
+enum class Screens {
+    LOGIN,
+    HOME,
+    PROPERTY_DETAIL
 }

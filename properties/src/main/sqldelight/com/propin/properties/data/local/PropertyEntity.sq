@@ -1,0 +1,34 @@
+CREATE TABLE PropertyEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    description TEXT NOT NULL,
+    addressLineOne TEXT NOT NULL DEFAULT "",
+    addressLineTwo TEXT NOT NULL DEFAULT "",
+    suburb TEXT NOT NULL,
+    city TEXT NOT NULL,
+    country TEXT NOT NULL,
+    code TEXT NOT NULL
+);
+
+insertNewProperty:
+INSERT
+INTO PropertyEntity (id, description, addressLineOne, addressLineTwo, suburb, city, country, code)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+updateProperty:
+INSERT OR REPLACE
+INTO PropertyEntity (id, description, addressLineOne, addressLineTwo, suburb, city, country, code)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+getPropertyById:
+SELECT *
+FROM PropertyEntity
+WHERE id = :id;
+
+getPropertyBasicInformation:
+SELECT id, description
+FROM PropertyEntity
+WHERE id = :id;
+
+getAllProperties:
+SELECT *
+FROM PropertyEntity;

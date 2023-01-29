@@ -17,24 +17,44 @@
 
 package com.propin.properties.data.local.repository
 
+import com.propin.core.PropError
 import com.propin.core.Resource
+import com.propin.core.toPropError
 import com.propin.properties.data.local.repository.mapper.toProperty
 import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.repository.PropertyRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
-class LocalPropertyRepository(private val datasource: LocalPropertyDatasource) : PropertyRepository {
-    override suspend fun getAllProperties(): Resource<List<Property>> = try {
-        Resource.Success(datasource.getAllProperties().map { propertyDto ->
-            propertyDto.toProperty()
-        })
-    } catch (ex: Exception) {
-        Resource.Error(ex)
-    }
+class LocalPropertyRepository(
+    private val datasource: LocalPropertyDatasource,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : PropertyRepository {
 
-    override suspend fun getProperty(id: Int): Resource<Property> = try {
-        val property = datasource.getProperty(id).toProperty()
-        Resource.Success(property)
-    } catch (ex: Exception) {
-        Resource.Error(ex)
+    override suspend fun getAllProperties(): Flow<Resource<List<Property>>> = flow {
+        var mappedList = listOf<Property>()
+        datasource.getAllProperties()
+            .catch { ex ->
+                Timber.e(ex)
+                Resource.Error<Resource<List<Property>>>(ex.toPropError())
+            }
+            .onEach { entities -> mappedList = entities.map { entity -> entity.toProperty() } }
+        emit(Resource.Success(mappedList))
+    }.flowOn(dispatcher)
+
+    override suspend fun getProperty(id: Long): Resource<Property> = withContext(dispatcher) {
+        try {
+            val property = datasource.getProperty(id)
+            if (property == null) {
+                Resource.Error(PropError.NotFoundError())
+            } else {
+                Resource.Success(property.toProperty())
+            }
+        } catch (ex: Exception) {
+            Resource.Error(ex.toPropError())
+        }
     }
 }

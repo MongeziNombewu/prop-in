@@ -1,0 +1,11 @@
+import com.propin.properties.domain.model.PaymentFrequency;
+
+CREATE TABLE LeaseEntity (
+     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+     propertyId INTEGER NOT NULL,
+     rate REAL NOT NULL,
+     locale TEXT DEFAULT "R",
+     startDate TEXT NOT NULL,
+     endDate TEXT NOT NULL,
+     paymentFrequency TEXT AS PaymentFrequency
+);
