@@ -25,6 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.propin.android.ui.Screens
 import com.propin.android.ui.home.HomeScreen
 import com.propin.android.ui.login.LoginScreen
+import com.propin.android.ui.property.PropertyDetailScreen
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -39,5 +40,11 @@ fun MainApp(navController: NavHostController = rememberNavController()) {
             )
         }
         composable(Screens.HOME.name) { HomeScreen(navController = navController) }
+        composable(Screens.PROPERTY_DETAIL.name) {
+            PropertyDetailScreen(
+                navController = navController,
+                propertyDetailViewModel = getViewModel()
+            )
+        }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022. Mongezi Nombewu
+ * Copyright (C) 2023. Mongezi Nombewu
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,18 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.properties.domain.model
+package com.propin.properties.domain.use_case
 
-import android.icu.math.BigDecimal
+import com.propin.core.Resource
+import com.propin.properties.domain.model.Property
+import com.propin.properties.domain.repository.PropertyRepository
 
-data class Property(
-    val ID: Long,
-    val description: String,
-    val address: Address,
-    val defaultRate: BigDecimal?,
-    val defaultPaymentFrequency: PaymentFrequency?
+class PersistPropertyUseCase(
+    private val localPropertyRepository: PropertyRepository
 ) {
-    companion object {
-        const val INVALID_ID: Long = -1L
+    suspend operator fun invoke(property: Property): Resource<Property> {
+        return localPropertyRepository.persistProperty(property)
     }
 }

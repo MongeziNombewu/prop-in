@@ -32,3 +32,9 @@ WHERE id = :id;
 getAllProperties:
 SELECT *
 FROM PropertyEntity;
+
+getLastInsertRowId:
+SELECT last_insert_rowid();
+
+getChanges:
+SELECT changes();

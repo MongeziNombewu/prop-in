@@ -37,7 +37,7 @@ android {
 dependencies {
     implementation project(path: ":core")
     implementation "androidx.core:core-ktx:1.9.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
 
     implementation "androidx.core:core-ktx:1.9.0"
 
@@ -47,7 +47,7 @@ dependencies {
 
     // koin
     implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+    implementation "io.insert-koin:koin-androidx-compose:$koin_compose_version"
     testImplementation "io.insert-koin:koin-test:$koin_version"
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 

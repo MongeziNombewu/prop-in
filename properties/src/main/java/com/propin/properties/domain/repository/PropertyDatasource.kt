@@ -18,10 +18,13 @@
 package com.propin.properties.domain.repository
 
 import com.propin.properties.data.local.PropertyEntity
+import com.propin.properties.domain.model.Property
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyDatasource {
     suspend fun getAllProperties(): Flow<List<PropertyEntity>>
 
     suspend fun getProperty(id: Long): PropertyEntity?
+
+    suspend fun persistProperty(property: Property): Long
 }

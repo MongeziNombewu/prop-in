@@ -15,18 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.properties.domain.model
+package com.propin.properties.domain.use_case
 
-import android.icu.math.BigDecimal
+import com.propin.core.Resource
+import com.propin.properties.domain.model.Property
+import com.propin.properties.domain.repository.PropertyRepository
 
-data class Property(
-    val ID: Long,
-    val description: String,
-    val address: Address,
-    val defaultRate: BigDecimal?,
-    val defaultPaymentFrequency: PaymentFrequency?
-) {
-    companion object {
-        const val INVALID_ID: Long = -1L
+class GetPropertyUseCase(private val localPropertyRepository: PropertyRepository) {
+    suspend operator fun invoke(id: Long): Resource<Property> {
+        return localPropertyRepository.getProperty(id)
     }
 }

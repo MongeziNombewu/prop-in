@@ -1,9 +1,22 @@
 <resources>
     <string name="app_name">Prop\'In</string>
+
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
+    <string name="description">Description</string>
+    <string name="address_line_one">Unit or floor number</string>
+    <string name="address_line_two">Street number and name</string>
+    <string name="suburb">Suburb</string>
+    <string name="city">City/Town</string>
+    <string name="country">Country</string>
+    <string name="postal_code">Postal code</string>
+    <string name="save">Save</string>
+    <string name="add_property">Add property</string>
 
-    //messaging
     <string name="home_no_properties">There are no properties available. Click the \'+\' below to add your first property</string>
+
+    <!-- Content Description -->
+    <string name="content_description_add_property">Add a new property</string>
+    <string name="content_description_navigate_back">Navigate Back</string>
 </resources>

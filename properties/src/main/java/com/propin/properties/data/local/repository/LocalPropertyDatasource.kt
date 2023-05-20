@@ -19,6 +19,7 @@ package com.propin.properties.data.local.repository
 
 import com.propin.properties.data.local.PropertiesDatabase
 import com.propin.properties.data.local.PropertyEntity
+import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.repository.PropertyDatasource
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
@@ -31,5 +32,28 @@ class LocalPropertyDatasource(private val database: PropertiesDatabase) : Proper
 
     override suspend fun getProperty(id: Long): PropertyEntity? {
         return database.propertyEntityQueries.getPropertyById(id).executeAsOneOrNull()
+    }
+
+    override suspend fun persistProperty(property: Property): Long {
+        return database.propertyEntityQueries.transactionWithResult {
+            var id: Long? = if (property.ID == Property.INVALID_ID) null else property.ID
+            database.propertyEntityQueries.updateProperty(
+                id = id,
+                description = property.description,
+                addressLineOne = property.address.lineOne,
+                addressLineTwo = property.address.lineTwo,
+                suburb = property.address.suburb,
+                city = property.address.city,
+                country = property.address.country,
+                code = property.address.code
+            )
+
+            // Get last inserted ID, if not updating
+            if (id == null) {
+                id = database.propertyEntityQueries.getLastInsertRowId().executeAsOne()
+            }
+
+            id
+        }
     }
 }

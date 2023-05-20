@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import com.propin.android.R
+import com.propin.android.ui.Screens
 import com.propin.android.ui.composables.PropertyCard
 import org.koin.androidx.compose.getViewModel
 
@@ -49,8 +52,14 @@ fun HomeScreen(
         scaffoldState = scaffoldState,
         modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { navController.navigate(Screens.PROPERTY_DETAIL.name) }) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(id = R.string.content_description_add_property))
+            }
+        }
     ) { padding ->
         val uiState: HomeUiState by homeViewModel.uiState.collectAsState()
+        //rewrite to separate composables for each state
         when (uiState) {
             is HomeUiState.PropertiesAvailable -> {
                 LazyColumn(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_standard))) {

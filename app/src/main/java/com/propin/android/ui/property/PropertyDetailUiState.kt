@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022. Mongezi Nombewu
+ * Copyright (C) 2023. Mongezi Nombewu
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,16 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.properties.domain.repository
+package com.propin.android.ui.property
 
-import com.propin.core.Resource
+import com.propin.core.UIText
 import com.propin.properties.domain.model.Property
-import kotlinx.coroutines.flow.Flow
 
-interface PropertyRepository {
-    suspend fun getAllProperties(): Flow<Resource<List<Property>>>
-
-    suspend fun getProperty(id: Long): Resource<Property>
-
-    suspend fun persistProperty(property: Property): Resource<Property>
+sealed class PropertyDetailUiState(val property: Property?) {
+    object Loading : PropertyDetailUiState(null)
+    object NewProperty : PropertyDetailUiState(null)
+    data class ExistingProperty(val existingProperty: Property) : PropertyDetailUiState(property = existingProperty)
+    data class PropertySaved(val savedProperty: Property, val savedUiText: UIText) : PropertyDetailUiState(property = savedProperty)
+    data class Error(val uiText: UIText, val errorProperty: Property?) : PropertyDetailUiState(property = errorProperty)
 }

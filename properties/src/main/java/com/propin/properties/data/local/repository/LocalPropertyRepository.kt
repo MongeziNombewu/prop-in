@@ -22,15 +22,20 @@ import com.propin.core.Resource
 import com.propin.core.toPropError
 import com.propin.properties.data.local.repository.mapper.toProperty
 import com.propin.properties.domain.model.Property
+import com.propin.properties.domain.repository.PropertyDatasource
 import com.propin.properties.domain.repository.PropertyRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class LocalPropertyRepository(
-    private val datasource: LocalPropertyDatasource,
+    private val datasource: PropertyDatasource,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PropertyRepository {
 
@@ -56,5 +61,18 @@ class LocalPropertyRepository(
         } catch (ex: Exception) {
             Resource.Error(ex.toPropError())
         }
+    }
+
+    override suspend fun persistProperty(property: Property): Resource<Property> = try {
+        val id = datasource.persistProperty(property)
+        if (property.ID == Property.INVALID_ID) {
+            Resource.Success(
+                property.copy(ID = id)
+            )
+        } else {
+            Resource.Success(property)
+        }
+    } catch (exception: Exception) {
+        Resource.Error(exception.toPropError())
     }
 }

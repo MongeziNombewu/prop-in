@@ -23,6 +23,8 @@ import com.propin.properties.data.local.repository.LocalPropertyDatasource
 import com.propin.properties.data.local.repository.LocalPropertyRepository
 import com.propin.properties.domain.repository.PropertyRepository
 import com.propin.properties.domain.use_case.GetPropertiesUseCase
+import com.propin.properties.domain.use_case.GetPropertyUseCase
+import com.propin.properties.domain.use_case.PersistPropertyUseCase
 import com.squareup.sqldelight.EnumColumnAdapter
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
@@ -49,6 +51,10 @@ val propertiesModule = module {
     factoryOf(::LocalPropertyRepository) bind PropertyRepository::class
 
     factoryOf(::GetPropertiesUseCase)
+
+    factoryOf(::PersistPropertyUseCase)
+
+    factoryOf(::GetPropertyUseCase)
 
     factory { Dispatchers.IO }
 }
