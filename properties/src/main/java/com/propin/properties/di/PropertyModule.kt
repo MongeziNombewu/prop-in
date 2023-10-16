@@ -21,6 +21,7 @@ import com.propin.properties.data.local.LeaseEntity
 import com.propin.properties.data.local.PropertiesDatabase
 import com.propin.properties.data.local.repository.LocalPropertyDatasource
 import com.propin.properties.data.local.repository.LocalPropertyRepository
+import com.propin.properties.domain.repository.PropertyDatasource
 import com.propin.properties.domain.repository.PropertyRepository
 import com.propin.properties.domain.use_case.GetPropertiesUseCase
 import com.propin.properties.domain.use_case.GetPropertyUseCase
@@ -40,13 +41,13 @@ val propertiesModule = module {
         PropertiesDatabase(get(), get())
     }
 
-    factory<SqlDriver> {
+    single<SqlDriver> {
         AndroidSqliteDriver(PropertiesDatabase.Schema, get(), NAMED_DATABASE)
     }
 
-    factory { LeaseEntity.Adapter(paymentFrequencyAdapter = EnumColumnAdapter()) }
+    single { LeaseEntity.Adapter(paymentFrequencyAdapter = EnumColumnAdapter()) }
 
-    factoryOf(::LocalPropertyDatasource)
+    factoryOf(::LocalPropertyDatasource) bind PropertyDatasource::class
 
     factoryOf(::LocalPropertyRepository) bind PropertyRepository::class
 

@@ -31,7 +31,8 @@ class PropertyDetailViewModel(
     private val getPropertyUseCase: GetPropertyUseCase,
     private val id: Long = Property.INVALID_ID
 ) : ViewModel() {
-    var uiState: MutableStateFlow<PropertyDetailUiState> = MutableStateFlow(PropertyDetailUiState.Loading)
+    var uiState: MutableStateFlow<PropertyDetailUiState> =
+        MutableStateFlow(PropertyDetailUiState.Loading)
         private set
 
     private var property: Property? = null
@@ -57,6 +58,4 @@ class PropertyDetailViewModel(
 
         }
     }
-
-
 }

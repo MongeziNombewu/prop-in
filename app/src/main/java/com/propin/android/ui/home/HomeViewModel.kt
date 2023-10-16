@@ -42,7 +42,13 @@ class HomeViewModel(private val getPropertiesUseCase: GetPropertiesUseCase) : Vi
                 .collect {
                     if (it.isSuccessful()) {
                         if (it.data.isNullOrEmpty()) {
-                            uiState.update { _ -> HomeUiState.NoPropertiesAvailable(UIText.ResourceString(R.string.home_no_properties)) }
+                            uiState.update { _ ->
+                                HomeUiState.NoPropertiesAvailable(
+                                    UIText.ResourceString(
+                                        R.string.home_no_properties
+                                    )
+                                )
+                            }
                         } else {
                             uiState.update { _ -> HomeUiState.PropertiesAvailable(it.data.orEmpty()) }
                         }

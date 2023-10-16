@@ -19,12 +19,26 @@ package com.propin.android.di
 
 import com.propin.android.ui.home.HomeViewModel
 import com.propin.android.ui.login.LoginViewModel
+import com.propin.android.ui.property.PropertyDetailViewModel
+import com.propin.properties.di.propertiesModule
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
+    includes(
+        propertiesModule
+    )
     viewModelOf(::LoginViewModel)
 
     viewModel { HomeViewModel(get()) }
+
+
+    viewModel { params ->
+        PropertyDetailViewModel(
+            persistPropertyUseCase = get(),
+            getPropertyUseCase = get(),
+            id = params.get()
+        )
+    }
 }

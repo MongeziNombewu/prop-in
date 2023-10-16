@@ -15,10 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.propin.android.ui
+package com.propin.android.ui.navigation
 
-enum class Screens {
-    LOGIN,
-    HOME,
-    PROPERTY_DETAIL
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
+interface Destination {
+    val route: String
+}
+
+object Home : Destination {
+    override val route: String = "home"
+}
+
+object PropertyDetail : Destination {
+    override val route: String = "property_detail"
+    const val propertyIdArg: String = "property_id"
+    val routeWithArgs = "$route/{$propertyIdArg}"
+    val arguments = listOf(navArgument(propertyIdArg) { type = NavType.LongType })
+}
+
+object Login : Destination {
+    override val route: String = "login"
 }

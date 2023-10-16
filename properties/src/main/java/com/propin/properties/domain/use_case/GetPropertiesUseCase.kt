@@ -22,9 +22,9 @@ import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.repository.PropertyRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetPropertiesUseCase(private val localPropertyRepository: PropertyRepository) {
+class GetPropertiesUseCase(private val repository: PropertyRepository) {
     suspend operator fun invoke(): Flow<Resource<List<Property>>> {
         // TODO: add remote handling and ordering
-        return localPropertyRepository.getAllProperties()
+        return repository.getAllProperties()
     }
 }

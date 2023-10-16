@@ -5,12 +5,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.propin.android"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "0.1"
 
@@ -26,12 +26,13 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        jvmToolchain 17
     }
     buildFeatures {
         compose true
@@ -51,14 +52,14 @@ dependencies {
     implementation project(path: ":properties")
     implementation project(path: ":core")
 
-    implementation "androidx.core:core-ktx:1.9.0"
+    implementation "androidx.core:core-ktx:1.12.0"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_material_version"
     implementation "androidx.compose.material:material-icons-core:$compose_material_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_material_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0"
-    implementation "androidx.activity:activity-compose:1.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
+    implementation "androidx.activity:activity-compose:1.8.0"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
@@ -66,8 +67,8 @@ dependencies {
     // koin
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.insert-koin:koin-androidx-compose:$koin_compose_version"
-    implementation "androidx.core:core-ktx:1.9.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
+    implementation "androidx.core:core-ktx:1.12.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
     testImplementation "io.insert-koin:koin-test:$koin_version"
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 

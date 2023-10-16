@@ -19,7 +19,6 @@ package com.propin.android
 
 import android.app.Application
 import com.propin.android.di.appModule
-import com.propin.properties.di.propertiesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -34,7 +33,7 @@ class PropInApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PropInApp)
-            modules(propertiesModule, appModule)
+            modules(appModule)
         }
     }
 }

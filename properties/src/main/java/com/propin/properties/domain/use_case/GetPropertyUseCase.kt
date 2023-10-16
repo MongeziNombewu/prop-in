@@ -21,8 +21,8 @@ import com.propin.core.Resource
 import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.repository.PropertyRepository
 
-class GetPropertyUseCase(private val localPropertyRepository: PropertyRepository) {
+class GetPropertyUseCase(private val repository: PropertyRepository) {
     suspend operator fun invoke(id: Long): Resource<Property> {
-        return localPropertyRepository.getProperty(id)
+        return repository.getProperty(id)
     }
 }

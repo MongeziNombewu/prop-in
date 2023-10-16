@@ -18,33 +18,15 @@
 package com.propin.android
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.propin.android.ui.Screens
-import com.propin.android.ui.home.HomeScreen
-import com.propin.android.ui.login.LoginScreen
-import com.propin.android.ui.property.PropertyDetailScreen
-import org.koin.androidx.compose.getViewModel
+import com.propin.android.ui.navigation.PropInNavHost
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.core.annotation.KoinExperimentalAPI
 
+@OptIn(KoinExperimentalAPI::class)
 @Composable
-fun MainApp(navController: NavHostController = rememberNavController()) {
+fun MainApp() {
 // TODO: handle high-level app scenarios i.e internet connectivity
-
-    NavHost(navController = navController, startDestination = Screens.HOME.name) {
-        composable(Screens.LOGIN.name) {
-            LoginScreen(
-                viewModel = getViewModel(),
-                onNavigateToHome = { navController.navigate(Screens.HOME.name) }
-            )
-        }
-        composable(Screens.HOME.name) { HomeScreen(navController = navController) }
-        composable(Screens.PROPERTY_DETAIL.name) {
-            PropertyDetailScreen(
-                navController = navController,
-                propertyDetailViewModel = getViewModel()
-            )
-        }
+    KoinAndroidContext {
+        PropInNavHost()
     }
 }

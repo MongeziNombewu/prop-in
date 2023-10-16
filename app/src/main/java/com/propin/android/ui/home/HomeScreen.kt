@@ -23,9 +23,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,17 +42,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.navigation.NavController
 import com.propin.android.R
-import com.propin.android.ui.Screens
 import com.propin.android.ui.composables.PropertyCard
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    navController: NavController,
-    homeViewModel: HomeViewModel = getViewModel(),
+    homeViewModel: HomeViewModel,
+    onNewPropertyClick: () -> Unit = {},
+    onPropertyClick: (Long) -> Unit = {},
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     Scaffold(
@@ -53,8 +58,11 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }) },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(Screens.PROPERTY_DETAIL.name) }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = stringResource(id = R.string.content_description_add_property))
+            FloatingActionButton(onClick = onNewPropertyClick) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.content_description_add_property)
+                )
             }
         }
     ) { padding ->
@@ -68,6 +76,7 @@ fun HomeScreen(
                     }
                 }
             }
+
             is HomeUiState.NoPropertiesAvailable -> {
                 Column(
                     modifier = Modifier
@@ -77,11 +86,14 @@ fun HomeScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = (uiState as HomeUiState.NoPropertiesAvailable).uiText.asString(LocalContext.current),
+                        text = (uiState as HomeUiState.NoPropertiesAvailable).uiText.asString(
+                            LocalContext.current
+                        ),
                         textAlign = TextAlign.Center
                     )
                 }
             }
+
             is HomeUiState.Error -> TODO()
             HomeUiState.Loading -> Column(
                 modifier = Modifier

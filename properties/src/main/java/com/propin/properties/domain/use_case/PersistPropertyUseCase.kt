@@ -22,9 +22,9 @@ import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.repository.PropertyRepository
 
 class PersistPropertyUseCase(
-    private val localPropertyRepository: PropertyRepository
+    private val repository: PropertyRepository
 ) {
     suspend operator fun invoke(property: Property): Resource<Property> {
-        return localPropertyRepository.persistProperty(property)
+        return repository.persistProperty(property)
     }
 }

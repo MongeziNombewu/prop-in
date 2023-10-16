@@ -17,7 +17,11 @@
 
 package com.propin.android.ui.login
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -37,7 +41,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.propin.android.R
 import com.propin.android.ui.theme.PropInTheme
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
@@ -92,6 +96,6 @@ fun LoginScreen(viewModel: LoginViewModel, onNavigateToHome: () -> Unit) {
 @Composable
 fun DefaultPreview() {
     PropInTheme {
-        LoginScreen(getViewModel()) {}
+        LoginScreen(koinViewModel()) {}
     }
 }

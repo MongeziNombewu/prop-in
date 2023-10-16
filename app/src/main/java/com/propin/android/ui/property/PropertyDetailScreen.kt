@@ -39,13 +39,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.propin.android.R
 import com.propin.android.ui.theme.PropInTheme
-import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PropertyDetailScreen(
     navController: NavController = rememberNavController(),
-    propertyDetailViewModel: PropertyDetailViewModel = getViewModel()
+    propertyDetailViewModel: PropertyDetailViewModel
 ) {
     Column(
         modifier = Modifier
@@ -60,13 +59,13 @@ fun PropertyDetailScreen(
         var country by rememberSaveable { mutableStateOf("") }
         var postalCode by rememberSaveable { mutableStateOf("") }
 
-        when (uiState) {
-            is PropertyDetailUiState.Error -> TODO()
-            is PropertyDetailUiState.ExistingProperty -> TODO()
-            PropertyDetailUiState.Loading -> TODO()
-            PropertyDetailUiState.NewProperty -> TODO()
-            is PropertyDetailUiState.PropertySaved -> TODO()
-        }
+//        when (uiState) {
+//            is PropertyDetailUiState.Error -> TODO()
+//            is PropertyDetailUiState.ExistingProperty -> TODO()
+//            PropertyDetailUiState.Loading -> TODO()
+//            PropertyDetailUiState.NewProperty -> TODO()
+//            is PropertyDetailUiState.PropertySaved -> TODO()
+//        }
 
         TopAppBar(title = { Text(stringResource(id = R.string.add_property)) },
             navigationIcon = {
@@ -157,6 +156,6 @@ fun PropertyDetailScreen(
 @Preview(showBackground = true)
 fun DefaultPreview() {
     PropInTheme {
-        PropertyDetailScreen()
+        //PropertyDetailScreen(getViewModel())
     }
 }
