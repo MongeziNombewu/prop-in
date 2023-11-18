@@ -36,7 +36,7 @@ class LocalPropertyDatasource(private val database: PropertiesDatabase) : Proper
 
     override suspend fun persistProperty(property: Property): Long {
         return database.propertyEntityQueries.transactionWithResult {
-            var id: Long? = if (property.ID == Property.INVALID_ID) null else property.ID
+            var id: Long? = if (property.id == Property.INVALID_ID) null else property.id
             database.propertyEntityQueries.updateProperty(
                 id = id,
                 description = property.description,

@@ -19,10 +19,13 @@ package com.propin.android.ui.property
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.propin.properties.domain.model.Address
+import com.propin.properties.domain.model.PaymentFrequency
 import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.use_case.GetPropertyUseCase
 import com.propin.properties.domain.use_case.PersistPropertyUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -31,31 +34,63 @@ class PropertyDetailViewModel(
     private val getPropertyUseCase: GetPropertyUseCase,
     private val id: Long = Property.INVALID_ID
 ) : ViewModel() {
-    var uiState: MutableStateFlow<PropertyDetailUiState> =
+    private val _uiState: MutableStateFlow<PropertyDetailUiState> =
         MutableStateFlow(PropertyDetailUiState.Loading)
-        private set
+    val uiState: StateFlow<PropertyDetailUiState> = _uiState
 
     private var property: Property? = null
 
     init {
         viewModelScope.launch {
             if (id == Property.INVALID_ID) {
-                uiState = MutableStateFlow(PropertyDetailUiState.NewProperty)
+                _uiState.emit(PropertyDetailUiState.NewProperty)
             } else {
                 val resource = getPropertyUseCase(id)
                 // TODO: check for no match
                 if (resource.isSuccessful()) {
                     resource.data?.let {
                         property = it
-                        uiState.update { _ -> PropertyDetailUiState.ExistingProperty(it) }
+                        _uiState.update { _ -> PropertyDetailUiState.ExistingProperty(it) }
                     }
                 } else {
                     resource.uiText?.let { errorUiText ->
-                        uiState.update { _ -> PropertyDetailUiState.Error(errorUiText, property) }
+                        _uiState.update { _ -> PropertyDetailUiState.Error(errorUiText, property) }
                     }
                 }
             }
+        }
+    }
 
+    fun saveProperty(
+        description: String,
+        address: Address,
+        rate: Int,
+        paymentFrequency: PaymentFrequency,
+    ) {
+        viewModelScope.launch {
+            val updatedProperty = property?.copy(
+                description = description,
+                address = address,
+                defaultRate = rate,
+                defaultPaymentFrequency = paymentFrequency
+            ) ?: Property(
+                description = description,
+                address = address,
+                defaultRate = rate,
+                defaultPaymentFrequency = paymentFrequency
+            )
+
+            val resource = persistPropertyUseCase(updatedProperty)
+            if (resource.isSuccessful()) {
+                resource.data?.let {
+                    property = it
+                    _uiState.update { _ -> PropertyDetailUiState.ExistingProperty(it) }
+                }
+            } else {
+                resource.uiText?.let { errorUiText ->
+                    _uiState.update { _ -> PropertyDetailUiState.Error(errorUiText, property) }
+                }
+            }
         }
     }
 }

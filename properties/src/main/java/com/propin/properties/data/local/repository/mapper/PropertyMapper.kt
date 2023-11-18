@@ -17,7 +17,6 @@
 
 package com.propin.properties.data.local.repository.mapper
 
-import android.icu.math.BigDecimal
 import com.propin.properties.data.local.PropertyEntity
 import com.propin.properties.domain.model.Address
 import com.propin.properties.domain.model.PaymentFrequency
@@ -28,7 +27,7 @@ fun PropertyEntity.toProperty(): Property {
         id,
         description,
         extractAddress(property = this),
-        BigDecimal.ZERO,
+        0,
         PaymentFrequency.MONTHLY
     )
 }

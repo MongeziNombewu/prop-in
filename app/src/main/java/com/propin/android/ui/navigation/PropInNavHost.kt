@@ -42,7 +42,6 @@ fun PropInNavHost(
             )
             val viewModel = koinViewModel<PropertyDetailViewModel> { parametersOf(propertyId) }
             PropertyDetailScreen(
-                navController = navController,
                 propertyDetailViewModel = viewModel
             )
         }

@@ -35,23 +35,38 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.propin.android.R
 import com.propin.android.ui.theme.PropInTheme
+import com.propin.properties.domain.model.Property
+
+
+@Composable
+fun PropertyDetailScreen(
+    modifier: Modifier = Modifier,
+    propertyDetailViewModel: PropertyDetailViewModel
+) {
+
+    val uiState: PropertyDetailUiState by propertyDetailViewModel.uiState.collectAsStateWithLifecycle()
+
+    DetailScreen(modifier = modifier, uiState = uiState, onBackPressed = { /*TODO*/ }) {
+
+    }
+}
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PropertyDetailScreen(
-    navController: NavController = rememberNavController(),
-    propertyDetailViewModel: PropertyDetailViewModel
+fun DetailScreen(
+    modifier: Modifier = Modifier,
+    uiState: PropertyDetailUiState,
+    onBackPressed: () -> Unit,
+    onSaveClicked: (Property) -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) {
         val keyboardController = LocalSoftwareKeyboardController.current
-        val uiState: PropertyDetailUiState by propertyDetailViewModel.uiState.collectAsState()
         var addressLineOne by rememberSaveable { mutableStateOf("") }
         var addressLineTwo by rememberSaveable { mutableStateOf("") }
         var suburb by rememberSaveable { mutableStateOf("") }
@@ -69,7 +84,7 @@ fun PropertyDetailScreen(
 
         TopAppBar(title = { Text(stringResource(id = R.string.add_property)) },
             navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
+                IconButton(onClick = onBackPressed) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.content_description_navigate_back)
@@ -145,7 +160,7 @@ fun PropertyDetailScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
-            onClick = {/*NO-OP*/ }
+            onClick = {}
         ) {
             Text(text = stringResource(id = R.string.save))
         }

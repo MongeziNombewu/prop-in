@@ -65,9 +65,9 @@ class LocalPropertyRepository(
 
     override suspend fun persistProperty(property: Property): Resource<Property> = try {
         val id = datasource.persistProperty(property)
-        if (property.ID == Property.INVALID_ID) {
+        if (property.id == Property.INVALID_ID) {
             Resource.Success(
-                property.copy(ID = id)
+                property.copy(id = id)
             )
         } else {
             Resource.Success(property)

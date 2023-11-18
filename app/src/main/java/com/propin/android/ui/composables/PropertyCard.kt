@@ -17,7 +17,6 @@
 
 package com.propin.android.ui.composables
 
-import android.icu.math.BigDecimal
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -42,7 +41,7 @@ fun PropertyCard(property: Property) {
 @Composable
 fun PreviewPropertyCard() {
     val property = Property(
-        ID = 0,
+        id = 0,
         description = "21 Jump Street",
         address = Address(
             "The Block",
@@ -52,7 +51,7 @@ fun PreviewPropertyCard() {
             "Australia",
             "1990"
         ),
-        defaultRate = BigDecimal(100),
+        defaultRate = 100,
         defaultPaymentFrequency = PaymentFrequency.MONTHLY
     )
 
