@@ -2,7 +2,7 @@ plugins {
     id "com.android.library"
     id "org.jetbrains.kotlin.android"
     id "kotlin-kapt"
-    id "com.squareup.sqldelight"
+    id "app.cash.sqldelight" version "2.0.0"
 }
 
 android {
@@ -37,8 +37,8 @@ dependencies {
     implementation "androidx.core:core-ktx:1.12.0"
 
     //sqldelight
-    implementation "com.squareup.sqldelight:android-driver:1.5.5"
-    implementation "com.squareup.sqldelight:coroutines-extensions-jvm:1.5.5"
+    implementation "app.cash.sqldelight:android-driver:2.0.0"
+    implementation "app.cash.sqldelight:coroutines-extensions:2.0.0"
 
     // koin
     implementation "io.insert-koin:koin-android:$koin_version"
@@ -53,7 +53,9 @@ dependencies {
 }
 
 sqldelight {
-    PropertiesDatabase {
-        packageName = "com.propin.properties.data.local"
+    databases {
+        PropertiesDatabase {
+            packageName = "com.propin.properties.data.local"
+        }
     }
 }

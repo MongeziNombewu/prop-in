@@ -13,6 +13,10 @@
     <string name="postal_code">Postal code</string>
     <string name="save">Save</string>
     <string name="add_property">Add property</string>
+    <string name="property_description">Short description</string>
+    <string name="monthly_rate">Rental Amount (Monthly)</string>
+    <string name="property_saved">Property Saved Successfully</string>
+    <string name="generic_error">Something went wrong. Please try again later</string>
 
     <string name="home_no_properties">There are no properties available. Click the \'+\' below to add your first property</string>
 

@@ -28,9 +28,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -39,16 +37,16 @@ class LocalPropertyRepository(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PropertyRepository {
 
-    override suspend fun getAllProperties(): Flow<Resource<List<Property>>> = flow {
-        var mappedList = listOf<Property>()
-        datasource.getAllProperties()
-            .catch { ex ->
-                Timber.e(ex)
-                Resource.Error<Resource<List<Property>>>(ex.toPropError())
-            }
-            .onEach { entities -> mappedList = entities.map { entity -> entity.toProperty() } }
-        emit(Resource.Success(mappedList))
-    }.flowOn(dispatcher)
+    override fun getAllProperties(): Flow<Resource<List<Property>>> = datasource.getAllProperties()
+        .catch { ex ->
+            Timber.e(ex)
+            Resource.Error<Resource<List<Property>>>(ex.toPropError())
+        }
+        .map { entities ->
+            Timber.d("Entities: $entities")
+            val mappedList = entities.map { entity -> entity.toProperty() }
+            Resource.Success(mappedList)
+        }
 
     override suspend fun getProperty(id: Long): Resource<Property> = withContext(dispatcher) {
         try {

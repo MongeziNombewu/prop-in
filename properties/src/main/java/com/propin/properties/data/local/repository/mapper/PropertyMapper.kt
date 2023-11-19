@@ -19,7 +19,6 @@ package com.propin.properties.data.local.repository.mapper
 
 import com.propin.properties.data.local.PropertyEntity
 import com.propin.properties.domain.model.Address
-import com.propin.properties.domain.model.PaymentFrequency
 import com.propin.properties.domain.model.Property
 
 fun PropertyEntity.toProperty(): Property {
@@ -27,8 +26,7 @@ fun PropertyEntity.toProperty(): Property {
         id,
         description,
         extractAddress(property = this),
-        0,
-        PaymentFrequency.MONTHLY
+        rate
     )
 }
 

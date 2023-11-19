@@ -17,22 +17,41 @@
 
 package com.propin.android.ui.composables
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.propin.android.ui.theme.PropInTheme
 import com.propin.properties.domain.model.Address
-import com.propin.properties.domain.model.PaymentFrequency
 import com.propin.properties.domain.model.Property
 
 @Composable
-fun PropertyCard(property: Property) {
-    Column {
-        Text(text = property.description)
+fun PropertyCard(
+    modifier: Modifier = Modifier,
+    property: Property,
+    onClick: (Long) -> Unit = {}
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .clickable { onClick(property.id) }
+    ) {
+        Text(modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp), text = property.description)
         property.address.lineOne.let {
-            Text(text = it, maxLines = 3)
+            Text(
+                modifier = Modifier.padding(top = 2.dp, start = 8.dp, end = 8.dp, bottom = 9.dp),
+                text = it,
+                maxLines = 3
+            )
         }
     }
 }
@@ -52,7 +71,6 @@ fun PreviewPropertyCard() {
             "1990"
         ),
         defaultRate = 100,
-        defaultPaymentFrequency = PaymentFrequency.MONTHLY
     )
 
     PropInTheme {

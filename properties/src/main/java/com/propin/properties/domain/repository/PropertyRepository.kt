@@ -22,7 +22,7 @@ import com.propin.properties.domain.model.Property
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {
-    suspend fun getAllProperties(): Flow<Resource<List<Property>>>
+    fun getAllProperties(): Flow<Resource<List<Property>>>
 
     suspend fun getProperty(id: Long): Resource<Property>
 

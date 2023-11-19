@@ -29,7 +29,8 @@ fun PropInNavHost(
         composable(Home.route) {
             HomeScreen(
                 homeViewModel = koinViewModel(),
-                onNewPropertyClick = { navController.navigateToPropertyDetail(Property.INVALID_ID) }
+                onNewPropertyClick = { navController.navigateToPropertyDetail(Property.INVALID_ID) },
+                onPropertyClick = { id -> navController.navigateToPropertyDetail(id) }
             )
         }
         composable(
@@ -42,7 +43,15 @@ fun PropInNavHost(
             )
             val viewModel = koinViewModel<PropertyDetailViewModel> { parametersOf(propertyId) }
             PropertyDetailScreen(
-                propertyDetailViewModel = viewModel
+                propertyDetailViewModel = viewModel,
+                onBackPress = { navController.popBackStack() },
+                onSave = { property ->
+                    viewModel.saveProperty(
+                        property.description,
+                        property.address,
+                        property.defaultRate,
+                    )
+                }
             )
         }
     }

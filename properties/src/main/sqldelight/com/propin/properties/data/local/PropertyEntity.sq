@@ -6,18 +6,19 @@ CREATE TABLE PropertyEntity (
     suburb TEXT NOT NULL,
     city TEXT NOT NULL,
     country TEXT NOT NULL,
-    code TEXT NOT NULL
+    code TEXT NOT NULL,
+    rate INTEGER NOT NULL DEFAULT 0
 );
 
 insertNewProperty:
 INSERT
-INTO PropertyEntity (id, description, addressLineOne, addressLineTwo, suburb, city, country, code)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INTO PropertyEntity (id, description, addressLineOne, addressLineTwo, suburb, city, country, code, rate)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 updateProperty:
 INSERT OR REPLACE
-INTO PropertyEntity (id, description, addressLineOne, addressLineTwo, suburb, city, country, code)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INTO PropertyEntity (id, description, addressLineOne, addressLineTwo, suburb, city, country, code, rate)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getPropertyById:
 SELECT *

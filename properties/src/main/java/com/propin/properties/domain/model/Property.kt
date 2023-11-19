@@ -21,8 +21,7 @@ data class Property(
     val id: Long = INVALID_ID,
     val description: String,
     val address: Address,
-    val defaultRate: Int,
-    val defaultPaymentFrequency: PaymentFrequency?
+    val defaultRate: Long
 ) {
     companion object {
         const val INVALID_ID: Long = -1L

@@ -22,40 +22,35 @@ import androidx.lifecycle.viewModelScope
 import com.propin.android.R
 import com.propin.core.UIText
 import com.propin.properties.domain.use_case.GetPropertiesUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import timber.log.Timber
 
 class HomeViewModel(private val getPropertiesUseCase: GetPropertiesUseCase) : ViewModel() {
 
-    var uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
-        private set
-
-    init {
-        viewModelScope.launch {
-            getPropertiesUseCase()
-                .catch { exception ->
-                    Timber.e(exception)
+    var uiState: StateFlow<HomeUiState> = getPropertiesUseCase()
+        .catch { exception -> Timber.e(exception) }
+        .map {
+            if (it.isSuccessful()) {
+                if (it.data.isNullOrEmpty()) {
+                    HomeUiState.NoPropertiesAvailable(
+                        UIText.ResourceString(
+                            R.string.home_no_properties
+                        )
+                    )
+                } else {
+                    HomeUiState.PropertiesAvailable(it.data.orEmpty())
                 }
-                .collect {
-                    if (it.isSuccessful()) {
-                        if (it.data.isNullOrEmpty()) {
-                            uiState.update { _ ->
-                                HomeUiState.NoPropertiesAvailable(
-                                    UIText.ResourceString(
-                                        R.string.home_no_properties
-                                    )
-                                )
-                            }
-                        } else {
-                            uiState.update { _ -> HomeUiState.PropertiesAvailable(it.data.orEmpty()) }
-                        }
-                    } else {
-                        it.error?.uiText?.let { uiText -> uiState.update { HomeUiState.Error(uiText) } }
-                    }
-                }
+            } else {
+                HomeUiState.Error(it.error?.uiText ?: UIText.ResourceString(R.string.generic_error))
+            }
         }
-    }
+        .stateIn(
+            scope = viewModelScope,
+            initialValue = HomeUiState.Loading,
+            started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+        )
 }

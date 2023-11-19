@@ -17,18 +17,19 @@
 
 package com.propin.properties.di
 
+import app.cash.sqldelight.EnumColumnAdapter
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.propin.properties.data.local.LeaseEntity
 import com.propin.properties.data.local.PropertiesDatabase
 import com.propin.properties.data.local.repository.LocalPropertyDatasource
 import com.propin.properties.data.local.repository.LocalPropertyRepository
+import com.propin.properties.domain.model.PaymentFrequency
 import com.propin.properties.domain.repository.PropertyDatasource
 import com.propin.properties.domain.repository.PropertyRepository
 import com.propin.properties.domain.use_case.GetPropertiesUseCase
 import com.propin.properties.domain.use_case.GetPropertyUseCase
 import com.propin.properties.domain.use_case.PersistPropertyUseCase
-import com.squareup.sqldelight.EnumColumnAdapter
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
@@ -38,7 +39,7 @@ private const val NAMED_DATABASE = "properties.db"
 
 val propertiesModule = module {
     single {
-        PropertiesDatabase(get(), get())
+        PropertiesDatabase(get())
     }
 
     single<SqlDriver> {

@@ -8,11 +8,10 @@ buildscript {
         compose_material_version = "1.5.3"
         koin_version = "3.5.0"
         koin_compose_version = "3.5.0"
-        nav_version = "2.7.4"
+        nav_version = "2.7.5"
     }
 
     dependencies {
-        classpath "com.squareup.sqldelight:gradle-plugin:1.5.5"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
     repositories {

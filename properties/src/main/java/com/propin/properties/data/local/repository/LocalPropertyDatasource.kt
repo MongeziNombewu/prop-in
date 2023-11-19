@@ -17,17 +17,22 @@
 
 package com.propin.properties.data.local.repository
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.propin.properties.data.local.PropertiesDatabase
 import com.propin.properties.data.local.PropertyEntity
 import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.repository.PropertyDatasource
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 
-class LocalPropertyDatasource(private val database: PropertiesDatabase) : PropertyDatasource {
-    override suspend fun getAllProperties(): Flow<List<PropertyEntity>> {
-        return database.propertyEntityQueries.getAllProperties().asFlow().mapToList()
+class LocalPropertyDatasource(
+    private val database: PropertiesDatabase,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : PropertyDatasource {
+    override fun getAllProperties(): Flow<List<PropertyEntity>> {
+        return database.propertyEntityQueries.getAllProperties().asFlow().mapToList(dispatcher)
     }
 
     override suspend fun getProperty(id: Long): PropertyEntity? {
@@ -45,7 +50,8 @@ class LocalPropertyDatasource(private val database: PropertiesDatabase) : Proper
                 suburb = property.address.suburb,
                 city = property.address.city,
                 country = property.address.country,
-                code = property.address.code
+                code = property.address.code,
+                rate = property.defaultRate,
             )
 
             // Get last inserted ID, if not updating

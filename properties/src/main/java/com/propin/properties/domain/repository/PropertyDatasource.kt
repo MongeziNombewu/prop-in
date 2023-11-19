@@ -22,7 +22,7 @@ import com.propin.properties.domain.model.Property
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyDatasource {
-    suspend fun getAllProperties(): Flow<List<PropertyEntity>>
+    fun getAllProperties(): Flow<List<PropertyEntity>>
 
     suspend fun getProperty(id: Long): PropertyEntity?
 

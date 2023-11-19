@@ -2,23 +2,28 @@ package com.propin.android.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColors(
+private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
-    secondary = PurpleGrey80
+    secondary = PurpleGrey80,
+    surface = PurpleGrey80,
+    onPrimary = Color.White
 )
 
-private val LightColorScheme = lightColors(
+private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
+    surface = PurpleGrey80,
+    onPrimary = Color.White
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -50,7 +55,7 @@ fun PropInTheme(
     }
 
     MaterialTheme(
-        colors = colorScheme,
+        colorScheme = colorScheme,
         typography = Typography,
         content = content
     )

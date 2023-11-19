@@ -19,6 +19,8 @@ package com.propin.core
 
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 
 /**
  * UiText extracts string resources, and allows non-UI classes
@@ -32,6 +34,14 @@ sealed class UIText {
         return when (this) {
             is DynamicString -> value
             is ResourceString -> context.getString(resId, args)
+        }
+    }
+
+    @Composable
+    fun asString(): String {
+        return when (this) {
+            is DynamicString -> value
+            is ResourceString -> stringResource(resId, args)
         }
     }
 }

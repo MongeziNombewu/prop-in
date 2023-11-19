@@ -19,8 +19,9 @@ package com.propin.android.ui.property
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.propin.android.R
+import com.propin.core.UIText
 import com.propin.properties.domain.model.Address
-import com.propin.properties.domain.model.PaymentFrequency
 import com.propin.properties.domain.model.Property
 import com.propin.properties.domain.use_case.GetPropertyUseCase
 import com.propin.properties.domain.use_case.PersistPropertyUseCase
@@ -46,7 +47,6 @@ class PropertyDetailViewModel(
                 _uiState.emit(PropertyDetailUiState.NewProperty)
             } else {
                 val resource = getPropertyUseCase(id)
-                // TODO: check for no match
                 if (resource.isSuccessful()) {
                     resource.data?.let {
                         property = it
@@ -64,27 +64,29 @@ class PropertyDetailViewModel(
     fun saveProperty(
         description: String,
         address: Address,
-        rate: Int,
-        paymentFrequency: PaymentFrequency,
+        rate: Long,
     ) {
         viewModelScope.launch {
             val updatedProperty = property?.copy(
                 description = description,
                 address = address,
                 defaultRate = rate,
-                defaultPaymentFrequency = paymentFrequency
             ) ?: Property(
                 description = description,
                 address = address,
                 defaultRate = rate,
-                defaultPaymentFrequency = paymentFrequency
             )
 
             val resource = persistPropertyUseCase(updatedProperty)
             if (resource.isSuccessful()) {
                 resource.data?.let {
                     property = it
-                    _uiState.update { _ -> PropertyDetailUiState.ExistingProperty(it) }
+                    _uiState.update { _ ->
+                        PropertyDetailUiState.PropertySaved(
+                            it,
+                            UIText.ResourceString(R.string.property_saved)
+                        )
+                    }
                 }
             } else {
                 resource.uiText?.let { errorUiText ->
